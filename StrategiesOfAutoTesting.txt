@@ -1,0 +1,15 @@
+1. Smoke test suite: 
+do it on every push, 
+cover only key and frequencied APIs, 
+short.
+
+2. Regression test suite: 
+do it on every depoloyment to an environment, 
+cover every APIs, 
+long. 
+
+3. Performance test suite: 
+the frequency and coverage is up to us.
+
+4. additional test suite:
+if need.

@@ -1,0 +1,18 @@
+on the collection
+> run
+on the runner
+> Functional > Choose how to run your collection > Automate runs via CLI
+the bottom button: Configure command
+> new tab: Generate Postman CLI Configuration
+Choose:
+
+Collection
+Environment
+CI/CD provider
+Operating system for CI/CD
+
+> Postman CLI command preview
+(Can make a detailed edit in here. Differ on each situation, combined with the choices.)
+this can be copy and paste to the provider platform.
+
+(I don't quite get this, it is out of reach for me.)
