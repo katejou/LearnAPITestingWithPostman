@@ -1,6 +1,3 @@
-Sure! Here’s a polished and professional version of your Markdown file while keeping all the original information intact:
-
----
 
 # Project Setup and Usage
 
