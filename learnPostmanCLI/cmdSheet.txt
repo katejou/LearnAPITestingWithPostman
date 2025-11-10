@@ -1,0 +1,29 @@
+> npm install -g postman-cli
+> postman -v
+
+get the api-key online: PMAK-XXXX
+> postman login
+wait, it let me login by google acount through chrome, so api key not needed.
+find the information icon on the collection, and copy the col ID
+
+> postman collection run {the col ID}
+the tests will fail because it don't know the env var
+find the environment, find its information icon and copy the env ID
+
+> postman collection run {the col ID} --environment {the env ID}
+Remember to set the environment variable to be "Share All" in the application, 
+it should all a little cloud after the variable.
+If the variable is not set to be "Share All", 
+it could not be detected by the Postman CLI, even if you input the environment ID.
+
+--bail 
+would jump out of the running of the collection on the first error.
+
+--timeout-request
+to specify the maximum time out in milliseconds that the runner will wait for a request,
+
+‑‑verbose 
+to print out not only the request, but the request and response data.
+
+for more, go to the doc that postman CLI provide online. 
+

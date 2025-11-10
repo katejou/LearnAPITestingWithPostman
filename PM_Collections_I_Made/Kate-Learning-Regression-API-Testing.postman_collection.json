@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "06539a95-807c-4a9f-b978-42abc8ffddd3",
+		"name": "Kate-Learning-Regression-API-Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29111713"
+	},
+	"item": [
+		{
+			"name": "Update Employee With Invalid Role",
+			"item": [
+				{
+					"name": "Get TestEmployee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// this \"get employee by name\" have result in one enviornment, but not in another, and that is why it have the check and set after or before running. \r",
+									"\r",
+									"const employees = pm.response.json();\r",
+									"console.log(\"I got the response: \", employees);\r",
+									"\r",
+									"if(employees.length == 0){ // unset\r",
+									"    pm.collectionVariables.unset(\"testEmployeeId\"); \r",
+									"    console.log(\"You can set the collection Variables, and then see it disappear after the execution of send\");\r",
+									"}else{ //set\r",
+									"    pm.collectionVariables.set(\"testEmployeeId\", employees[0].id); \r",
+									"    console.log(\"You can check the collection Variables, and then see it added or edited after the execution of send\");\r",
+									"    \r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseurl}}/employees?name=TestEmployee12345",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "TestEmployee12345"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add TestEmployee",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const employeeId = pm.collectionVariables.get(\"testEmployeeId\");\r",
+									"if(employeeId){\r",
+									"    pm.execution.skipRequest();\r",
+									"    console.log(\"The collection Variables exist (that means the testEmployee already exist), so the Request is skip, and will not be excute even if 'Send'.\")\r",
+									"}else{\r",
+									"    console.log(\"The collection Variables do not exist, so the Request continue to 'Send', and an testEmployee is therefore added\")\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"TestEmployee12345\",\r\n    \"departmentId\": 2,\r\n    \"roleId\": 1,\r\n    \"managerId\": 1\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/employees",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch with wrong roleId get 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return a bad Request\", ()=>{\r",
+									"    pm.expect(pm.response.code).to.eql(400)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"TestEmployee1234\",\r\n    \"departmentId\": 2,\r\n    \"roleId\": 99,\r\n    \"managerId\": 1,\r\n    \"id\":{{testEmployeeId}}\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/employees/{{testEmployeeId}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"employees",
+								"{{testEmployeeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"console.log(\"It is a before each -- Going to execute \"+ pm.execution.location)"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"console.log(\"It is a after each -- Just executed \"+ pm.execution.location)"
+				]
+			}
+		}
+	]
+}
